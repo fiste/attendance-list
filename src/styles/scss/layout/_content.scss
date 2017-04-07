@@ -1,0 +1,398 @@
+body {
+  background: rgb(63,76,107);
+  background: -moz-linear-gradient(top, rgba(63,76,107,1) 0%, rgba(63,76,107,1) 100%);
+  background: -webkit-linear-gradient(top, rgba(63,76,107,1) 0%,rgba(63,76,107,1) 100%);
+  background: linear-gradient(to bottom, rgba(63,76,107,1) 0%,rgba(63,76,107,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3f4c6b', endColorstr='#3f4c6b',GradientType=0 );
+  font-family: Verdana;
+  font-size: 12px;
+  color: #fff;
+}
+
+@mixin transition($transition) {
+  -webkit-transition: $transition ease;
+  -moz-transition: $transition ease;
+  -ms-transition: $transition ease;
+  -o-transition: $transition ease;
+  transition: $transition ease;
+}
+
+@mixin transform($transform) {
+  -webkit-transform: $transform;
+  -moz-transform: $transform;
+  -ms-transform: $transform;
+  -o-transform: $transform;
+  transform: $transform;
+}
+
+.attendee {
+  border: 1px solid #fff;
+  padding: 15px;
+  text-align: center;
+  float: left;
+  width: calc(21% - 32px);
+  margin: 1% 2%;
+  color: #fff;
+  background: #5b6d96;
+  @include transition(.15s);
+
+  &:hover {
+    background: #7e92bf;
+  }
+
+  &.present {
+    background: #3c843c;
+  }
+
+  &.late {
+    background: #dcad44;
+  }
+
+  &.absent {
+    background: #d43b3b;
+  }
+
+  .studentImage {
+    max-width: 75px;
+    display: inline-block;
+  }
+
+  .studentName {
+    margin: 5px;
+    display: block;
+  }
+
+  .markStudent {
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    border: 1px solid transparent;
+    background: rgba(0, 0, 0, 0.5);
+    margin: 0 2px;
+    position: relative;
+    cursor: pointer;
+    @include transition(.5s);
+
+    &:hover {
+      border-radius: 50%;
+      border-color: #fff;
+    }
+
+    &:hover,
+    &:active,
+    &:focus {
+      outline: none;
+    }
+
+    .markPresent {
+      margin: 0px auto;
+    }
+
+    .markLate {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+    }
+
+    .markAbsent {
+      &:before,
+      &:after {
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        margin: auto;
+        position: absolute;
+      }
+    }
+  }
+}
+
+.markPresent, .marked {
+  display: block;
+  width: 21px;
+  height: 22px;
+  position: relative;
+  margin: 0px auto;
+}
+
+.marked {
+  margin: 7px auto;
+}
+
+.markPresent {
+  margin: 14px auto 0 auto;
+
+  &:after, &:before {
+    content:" ";
+    background:#fff;
+    height:3px;
+    position:absolute;
+  }
+
+  &:before {
+    width:11px;
+    left:0;
+    top:14px;
+    transform:rotate(35deg);
+  }
+
+  &:after {
+    width:18px;
+    left:5px;
+    top:11px;
+    transform:rotate(-55deg);
+  }
+}
+
+.markLate {
+  border-radius: 100%;
+  height: 18px;
+  width: 18px;
+  border: 2px solid #fff;
+  display: inline-block;
+  position: relative;
+  margin-bottom: 0;
+  
+  &:after,
+  &:before {
+    border: 2px solid #fff;
+    content: '';
+    position: absolute;
+    border-left: none;
+    width: 0;
+  }
+
+  &:after {
+    height: 5px;
+    left: 7px;
+    top: 3px;
+  }
+
+  &:before {
+    height: 5px;
+    left: 10px;
+    top: 5px;
+    @include transform(rotate(50deg));
+  }
+}
+
+.markAbsent {
+  display: block;
+  margin: 14px auto 0 auto;
+
+  &:before,
+  &:after {
+    position: absolute;
+    left: 15px;
+    content: ' ';
+    height: 20px;
+    width: 2px;
+    background-color: #fff;
+  }
+
+  &:before {
+    transform: rotate(45deg);
+  }
+
+  &:after {
+    transform: rotate(-45deg);
+  }
+}
+
+.studentMarks {
+  margin-left: 2%;
+
+  .stats {
+    .total {
+      display: none;
+    }
+  }
+
+  &.done {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,.9);
+    margin: 0;
+
+    .stats {
+      position: absolute;
+      width: 50%;
+      height: 50%;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+      background: #3f4c6b;
+      text-align: center;
+      border: 1px solid #fff;
+
+      .counter {
+        display: none;
+      }
+
+      .total {
+        display: block;
+
+        .closeModalButton {
+          padding: 0;
+          width: 30px;
+          height: 30px;
+          border: 1px solid transparent;
+          margin: 0;
+          position: relative;
+          cursor: pointer;
+          float: right;
+          top: -10px;
+          right: 10px;
+          width: 25px;
+          height: 25px;
+          background: transparent;
+          @include transition(.5s);
+
+          &:hover {
+            border-radius: 50%;
+            border-color: #fff;
+          }
+
+          &:hover,
+          &:active,
+          &:focus {
+            outline: none;
+          }
+
+          .closeModal {
+            display: block;
+            margin: 0;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            margin: auto;
+            position: absolute;
+
+            &:before,
+            &:after {
+              position: absolute;
+              left: 11px;
+              content: ' ';
+              height: 22px;
+              width: 2px;
+              background-color: #fff;
+            }
+
+            &:before {
+              transform: rotate(45deg);
+            }
+
+            &:after {
+              transform: rotate(-45deg);
+            }
+          }
+        }
+
+        .totalTable {
+          border-collapse: collapse;
+          width: 90%;
+          margin: 0 auto;
+
+          td, th {
+            border: 1px solid #ddd;
+            padding: 8px;
+            line-height: 25px;
+            width: 50%;
+          }
+
+          tr {
+            @include transition(.25s);
+
+            &:first-child {
+              &:hover {
+                background: #3c843c;
+              }
+            }
+
+            &:nth-child(2) {
+              &:hover {
+                background: #dcad44;
+              }
+            }
+
+            &:last-child {
+              &:hover {
+                background: #d43b3b;
+              }
+            }
+          }
+
+          th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: white;
+          }
+        }
+      }
+    }
+
+    h2 {
+      display: block;
+      margin: 20px 0 40px 0;
+    }
+  }
+
+  h2 {
+    display: none;
+  }
+
+  p {
+    font-size: 14px;
+  }
+}
+
+.controls {
+  margin-left: 2%;
+
+  .reset,
+  .done {
+    background: #ccc;
+    border: 1px solid #fff;
+    font-size: 16px;
+    padding: 5px 10px;
+    margin-right: 15px;
+    @include transition(.25s);
+
+    &:hover {
+      color: #fff;
+      border-radius: 10px;
+      cursor: pointer;
+      border-color: #fff;
+    }
+
+    &:hover,
+    &:focus,
+    &:active {
+      outline: none;
+    }
+  }
+
+  .reset {
+    &:hover {
+      background: #dcad44;
+    }
+  }
+
+  .done {
+    &:hover {
+      background: #36a919;
+    }
+  }
+}
